@@ -14,7 +14,7 @@ Examples...
 
 ## Author
 
-* **Dawid Samo³yk** - (https://bitbucket.org/dawidsamolyk)
+* **Dawid Samolyk** - (https://bitbucket.org/dawidsamolyk)
 
 ## License
 
