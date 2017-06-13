@@ -18,6 +18,7 @@ import com.wrapper.spotify.exceptions.WebApiException;
 import com.wrapper.spotify.methods.ArtistSearchRequest;
 import com.wrapper.spotify.models.Artist;
 
+import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.exception.application.ApplicationException;
 import pl.spotify.connector.exception.application.artist.ArtistNotFoundException;
 import pl.spotify.connector.exception.system.SystemException;
@@ -49,13 +50,12 @@ public class SpotifyArtistWebApi extends AbstractSpotifyWebApi {
 	 * @param topTracksLimit
 	 *            Limit of top tracks to get.
 	 * @return A collection of artists.
-	 * @throws ApplicationException
-	 *             Thrown when input data is invalid or artist not found.
-	 * @throws SystemException
-	 *             Thrown when any internal error occurs.
+	 * @throws SpotifyConnectorException
+	 *             Thrown when input data is invalid or artist not found or any
+	 *             internal error occurs.
 	 */
 	public Collection<SpotifyArtist> getArtistsByName(String name, int topTracksLimit)
-			throws ApplicationException, SystemException {
+			throws SpotifyConnectorException {
 		final ArtistSearchRequest request = getApi().searchArtists(name).build();
 
 		try {
@@ -93,7 +93,7 @@ public class SpotifyArtistWebApi extends AbstractSpotifyWebApi {
 		try {
 			return tracksApi.getTopTracksByArtistId(eachArtist, topTracksLimit);
 
-		} catch (ApplicationException | SystemException e) {
+		} catch (SpotifyConnectorException e) {
 			// TODO message
 			getLogger().error(e.getLocalizedMessage(), e);
 
@@ -104,7 +104,7 @@ public class SpotifyArtistWebApi extends AbstractSpotifyWebApi {
 	private Collection<String> fetchRelatedArtists(Artist artist) {
 		try {
 			final List<Artist> result = getApi().getArtistRelatedArtists(artist.getId()).build().get();
-			return result.stream().map(getArtistNameMapper()).collect(Collectors.toList());
+			return result.stream().map(Artist::getName).collect(Collectors.toList());
 
 		} catch (IOException | WebApiException | SystemException e) {
 			// TODO message
@@ -112,10 +112,6 @@ public class SpotifyArtistWebApi extends AbstractSpotifyWebApi {
 
 			return Collections.emptyList();
 		}
-	}
-
-	private Function<? super Artist, ? extends String> getArtistNameMapper() {
-		return each -> each.getName();
 	}
 
 }

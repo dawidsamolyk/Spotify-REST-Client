@@ -20,6 +20,7 @@ import com.wrapper.spotify.models.Artist;
 import com.wrapper.spotify.models.SimpleAlbum;
 import com.wrapper.spotify.models.Track;
 
+import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.exception.application.ApplicationException;
 import pl.spotify.connector.exception.application.artist.ArtistNotFoundException;
 import pl.spotify.connector.exception.system.SystemException;
@@ -54,13 +55,12 @@ public class SpotifyTrackWebApi extends AbstractSpotifyWebApi {
 	 * @param tracksLimit
 	 *            Limit of tracks to get.
 	 * @return A collection of top tracks.
-	 * @throws ApplicationException
-	 *             Thrown when input data is invalid or artist not found.
-	 * @throws SystemException
-	 *             Thrown when any internal error occurs.
+	 * @throws SpotifyConnectorException
+	 *             Thrown when input data is invalid or artist not found or any
+	 *             internal error occurs.
 	 */
 	public Collection<SpotifyTrack> getTopTracksByArtistId(Artist artist, int tracksLimit)
-			throws ApplicationException, SystemException {
+			throws SpotifyConnectorException {
 		final TopTracksRequest request = getApi().getTopTracksForArtist(artist.getId(), getCountryByLocale()).build();
 
 		try {
@@ -111,7 +111,7 @@ public class SpotifyTrackWebApi extends AbstractSpotifyWebApi {
 		try {
 			return albumApi.getAlbumById(album.getId());
 
-		} catch (ApplicationException | SystemException e) {
+		} catch (SpotifyConnectorException e) {
 			// TODO message
 			getLogger().error(e.getLocalizedMessage(), e);
 

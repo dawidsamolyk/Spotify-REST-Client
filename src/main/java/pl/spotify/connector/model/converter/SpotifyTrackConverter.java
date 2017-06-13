@@ -30,7 +30,7 @@ public class SpotifyTrackConverter {
 	 *            Track to convert.
 	 * @return Converted data.
 	 */
-	public SpotifyTrack convertFrom(Track track) {
+	public SpotifyTrack convertFrom(final Track track) {
 		final Track toConvert = Optional.ofNullable(track).orElse(EMPTY_TRACK);
 
 		final SpotifyTrack result = new SpotifyTrack();

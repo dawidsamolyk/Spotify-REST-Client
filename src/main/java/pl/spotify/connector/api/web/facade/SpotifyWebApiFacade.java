@@ -8,8 +8,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import pl.spotify.connector.api.web.SpotifyArtistWebApi;
-import pl.spotify.connector.exception.application.ApplicationException;
-import pl.spotify.connector.exception.system.SystemException;
+import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.model.SpotifyArtist;
 
 /**
@@ -29,7 +28,7 @@ public class SpotifyWebApiFacade {
 	 * @see {@link SpotifyArtistWebApi#getArtistsByName(String)}
 	 */
 	public Collection<SpotifyArtist> getArtistsByName(String name, int topTracksLimit)
-			throws ApplicationException, SystemException {
+			throws SpotifyConnectorException {
 		return artistApi.getArtistsByName(name, topTracksLimit);
 	}
 

@@ -10,7 +10,7 @@ import pl.spotify.connector.exception.application.artist.InvalidArtistIdExceptio
 import pl.spotify.connector.exception.system.SpotifyApiException;
 
 /**
- * Maps exceptions.
+ * Handles exceptions.
  * 
  * @author Dawid Samolyk
  *
@@ -30,7 +30,7 @@ public class ExceptionsHandlingController {
 	public InvalidArtistIdException exception(InvalidArtistIdException exception) {
 		return new InvalidArtistIdException(messagesProvider.get(exception.getMessage()), exception.getCause());
 	}
-	
+
 	@ExceptionHandler(SpotifyApiException.class)
 	public SpotifyApiException exception(SpotifyApiException exception) {
 		return new SpotifyApiException(messagesProvider.get(exception.getMessage()));

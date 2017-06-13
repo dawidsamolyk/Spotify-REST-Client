@@ -77,9 +77,18 @@ public class SpotifyTrack implements Serializable {
 
 		final SpotifyTrack other = (SpotifyTrack) object;
 
-		return Objects.equals(trackName, other.trackName) && Objects.equals(albumName, other.albumName)
-				&& Objects.equals(duration, other.duration) && Objects.equals(previewUrl, other.previewUrl)
-				&& Objects.equals(albumReleaseDate, other.albumReleaseDate);
+		final boolean areBasicValuesEqual = Objects.equals(trackName, other.trackName)
+				&& Objects.equals(duration, other.duration) && Objects.equals(previewUrl, other.previewUrl);
+
+		if (!areBasicValuesEqual) {
+			return false;
+		}
+		return Objects.equals(albumReleaseDate, other.albumReleaseDate) && Objects.equals(albumName, other.albumName);
+	}
+
+	@Override
+	public String toString() {
+		return "SpotifyTrack [trackName=" + trackName + ", albumName=" + albumName + "]";
 	}
 
 }

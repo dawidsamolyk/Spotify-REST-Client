@@ -14,10 +14,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import pl.spotify.connector.SpotifyConnectorApplication;
-import pl.spotify.connector.exception.application.ApplicationException;
+import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.exception.application.artist.ArtistNotFoundException;
 import pl.spotify.connector.exception.application.artist.InvalidArtistIdException;
-import pl.spotify.connector.exception.system.SystemException;
 import pl.spotify.connector.model.SpotifyArtist;
 import pl.spotify.connector.service.artist.SpotifyArtistService;
 
@@ -39,15 +38,15 @@ public class SpotifyArtistServiceIntegrationTest {
 	private SpotifyArtistService objectUnderTest;
 
 	@Test
-	public void for_null_artist_should_throw_exception() throws ApplicationException, SystemException {
+	public void for_null_artist_should_throw_exception() throws SpotifyConnectorException {
 		exception.expect(InvalidArtistIdException.class);
 		objectUnderTest.fetchArtistsByName(null, 0);
 	}
 
 	@Test
-	public void for_not_existent_artist_id_should_throw_exception() throws ApplicationException, SystemException {
+	public void for_not_existent_artist_id_should_throw_exception() throws SpotifyConnectorException {
 		// given
-		String artistName = "unknown";
+		String artistName = "bbakf512uienfnjsa";
 
 		// then
 		exception.expect(ArtistNotFoundException.class);
@@ -55,7 +54,7 @@ public class SpotifyArtistServiceIntegrationTest {
 	}
 
 	@Test
-	public void for_example_artist_id_should_provide_valid_name() throws ApplicationException, SystemException {
+	public void for_example_artist_id_should_provide_valid_name() throws SpotifyConnectorException {
 		// given
 		String artistName = "Band of Horses";
 

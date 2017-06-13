@@ -66,7 +66,7 @@ public class SpotifyArtist implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(name, genres, photoUrl, topTracks);
+		return Objects.hash(name, genres, photoUrl, topTracks, similarArtists);
 	}
 
 	@Override
@@ -78,8 +78,13 @@ public class SpotifyArtist implements Serializable {
 
 		final SpotifyArtist other = (SpotifyArtist) object;
 
-		return Objects.equals(name, other.name) && Objects.equals(genres, other.genres)
-				&& Objects.equals(photoUrl, other.photoUrl) && Objects.equals(topTracks, other.topTracks);
+		final boolean areBasicValuesEquals = Objects.equals(name, other.name) && Objects.equals(genres, other.genres)
+				&& Objects.equals(photoUrl, other.photoUrl);
+
+		if (!areBasicValuesEquals) {
+			return false;
+		}
+		return Objects.equals(topTracks, other.topTracks) && Objects.equals(similarArtists, other.similarArtists);
 	}
 
 	@Override

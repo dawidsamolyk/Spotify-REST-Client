@@ -35,7 +35,7 @@ public class SpotifyConnectorApplication {
 	 * @param arguments
 	 *            Application arguments.
 	 */
-	public static void main(String[] arguments) {
+	public static void main(final String[] arguments) {
 		SpringApplication.run(SpotifyConnectorApplication.class, arguments);
 	}
 

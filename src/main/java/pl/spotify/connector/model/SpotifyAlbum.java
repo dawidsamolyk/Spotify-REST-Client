@@ -50,4 +50,9 @@ public class SpotifyAlbum implements Serializable {
 		return Objects.equals(name, other.name) && Objects.equals(releaseDate, other.releaseDate);
 	}
 
+	@Override
+	public String toString() {
+		return "SpotifyAlbum [name=" + name + ", releaseDate=" + releaseDate + "]";
+	}
+
 }

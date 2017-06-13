@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import pl.spotify.connector.api.web.facade.SpotifyWebApiFacade;
+import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.exception.application.ApplicationException;
 import pl.spotify.connector.exception.application.artist.InvalidArtistIdException;
-import pl.spotify.connector.exception.system.SystemException;
 import pl.spotify.connector.model.SpotifyArtist;
 
 /**
@@ -38,13 +38,12 @@ public class SpotifyArtistService {
 	 * @param topTracksLimit
 	 *            Limit of top tracks to get.
 	 * @return Artists.
-	 * @throws ApplicationException
-	 *             Thrown when input data given by user is invalid.
-	 * @throws SystemException
-	 *             Thrown when any unexpected system error occurs.
+	 * @throws SpotifyConnectorException
+	 *             Thrown when input data given by user is invalid or any
+	 *             unexpected system error occurs.
 	 */
-	public Collection<SpotifyArtist> fetchArtistsByName(String artist, int topTracksLimit)
-			throws ApplicationException, SystemException {
+	public Collection<SpotifyArtist> fetchArtistsByName(final String artist, int topTracksLimit)
+			throws SpotifyConnectorException {
 		final String artistName = Optional.ofNullable(emptyToNull(artist))
 				.orElseThrow(getInvalidArtistIdErrorProvider());
 

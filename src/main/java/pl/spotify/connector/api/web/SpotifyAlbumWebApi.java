@@ -13,6 +13,7 @@ import com.wrapper.spotify.exceptions.WebApiException;
 import com.wrapper.spotify.methods.AlbumRequest;
 import com.wrapper.spotify.models.Album;
 
+import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.exception.application.ApplicationException;
 import pl.spotify.connector.exception.application.artist.ArtistNotFoundException;
 import pl.spotify.connector.exception.system.SystemException;
@@ -38,12 +39,11 @@ public class SpotifyAlbumWebApi extends AbstractSpotifyWebApi {
 	 * @param albuIds
 	 *            Album ID.
 	 * @return An album.
-	 * @throws ApplicationException
-	 *             Thrown when input data is invalid or artist not found.
-	 * @throws SystemException
-	 *             Thrown when any internal error occurs.
+	 * @throws SpotifyConnectorException
+	 *             Thrown when input data is invalid or artist not found or any
+	 *             internal error occurs.
 	 */
-	public SpotifyAlbum getAlbumById(String id) throws ApplicationException, SystemException {
+	public SpotifyAlbum getAlbumById(String id) throws SpotifyConnectorException {
 		final AlbumRequest request = getApi().getAlbum(id).build();
 
 		try {

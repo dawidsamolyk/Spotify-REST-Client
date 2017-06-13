@@ -3,6 +3,7 @@ package pl.spotify.connector.exception.application.artist;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.exception.application.ApplicationException;
 
 /**
@@ -17,22 +18,14 @@ public class ArtistNotFoundException extends ApplicationException {
 	private static final long serialVersionUID = 6019925480553425020L;
 
 	/**
-	 * Default constructor.
-	 * 
-	 * @param message
-	 *            Message which describes error.
-	 * @param cause
-	 *            Cause of error.
+	 * @see {@link SpotifyConnectorException#SpotifyConnectorException(String, Throwable)}
 	 */
 	public ArtistNotFoundException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
 	/**
-	 * Constructor.
-	 * 
-	 * @param message
-	 *            Message which describes error.
+	 * @see {@link SpotifyConnectorException#SpotifyConnectorException(String)}
 	 */
 	public ArtistNotFoundException(final String message) {
 		super(message);

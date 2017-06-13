@@ -2,8 +2,8 @@ package pl.spotify.connector.model.converter;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -44,12 +44,11 @@ public class SpotifyArtistConverter {
 		return result;
 	}
 
-	private String selectFirstUrl(List<Image> images) {
-		return images.stream().map(getImageUrlMapper()).findFirst().orElse(null);
-	}
-
-	private Function<? super Image, ? extends String> getImageUrlMapper() {
-		return each -> each.getUrl();
+	private String selectFirstUrl(final List<Image> images) {
+		if (CollectionUtils.isEmpty(images)) {
+			return null;
+		}
+		return images.stream().map(Image::getUrl).findFirst().orElse(null);
 	}
 
 }
