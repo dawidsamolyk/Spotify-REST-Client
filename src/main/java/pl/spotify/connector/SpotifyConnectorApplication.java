@@ -60,7 +60,7 @@ public class SpotifyConnectorApplication {
 	@Bean
 	public MessageSource createMessageSource() {
 		final ResourceBundleMessageSource result = new ResourceBundleMessageSource();
-		result.setBasenames(i18nBasePath);
+		result.setBasename(i18nBasePath);
 		result.setDefaultEncoding(i18nEncoding);
 
 		return result;

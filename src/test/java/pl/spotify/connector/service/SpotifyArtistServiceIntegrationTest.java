@@ -1,6 +1,8 @@
 package pl.spotify.connector.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.util.Collection;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,7 +18,7 @@ import pl.spotify.connector.exception.application.ApplicationException;
 import pl.spotify.connector.exception.application.artist.ArtistNotFoundException;
 import pl.spotify.connector.exception.application.artist.InvalidArtistIdException;
 import pl.spotify.connector.exception.system.SystemException;
-import pl.spotify.connector.model.artist.Artist;
+import pl.spotify.connector.model.SpotifyArtist;
 import pl.spotify.connector.service.artist.SpotifyArtistService;
 
 /**
@@ -39,29 +41,29 @@ public class SpotifyArtistServiceIntegrationTest {
 	@Test
 	public void for_null_artist_should_throw_exception() throws ApplicationException, SystemException {
 		exception.expect(InvalidArtistIdException.class);
-		objectUnderTest.fetchArtistById(null);
+		objectUnderTest.fetchArtistsByName(null, 0);
 	}
-	
+
 	@Test
 	public void for_not_existent_artist_id_should_throw_exception() throws ApplicationException, SystemException {
 		// given
-		String artistId = "unknown";
+		String artistName = "unknown";
 
 		// then
 		exception.expect(ArtistNotFoundException.class);
-		objectUnderTest.fetchArtistById(artistId);
+		objectUnderTest.fetchArtistsByName(artistName, 0);
 	}
 
 	@Test
 	public void for_example_artist_id_should_provide_valid_name() throws ApplicationException, SystemException {
 		// given
-		String artistId = "0OdUWJ0sBjDrqHygGUXeCF";
+		String artistName = "Band of Horses";
 
 		// when
-		Artist result = objectUnderTest.fetchArtistById(artistId);
+		Collection<SpotifyArtist> result = objectUnderTest.fetchArtistsByName(artistName, 0);
 
 		// then
-		assertEquals("Band of Horses", result.getName());
+		assertEquals("Band of Horses", result.stream().findFirst().orElse(new SpotifyArtist()).getName());
 	}
 
 }

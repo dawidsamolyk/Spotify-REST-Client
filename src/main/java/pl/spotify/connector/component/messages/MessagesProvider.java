@@ -2,7 +2,7 @@ package pl.spotify.connector.component.messages;
 
 import java.util.Locale;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.MessageSource;
@@ -22,7 +22,7 @@ public class MessagesProvider {
 
 	@Autowired
 	private MessageSource messageSource;
-
+	
 	/**
 	 * Provides internationalized message.
 	 * 

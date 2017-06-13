@@ -39,6 +39,8 @@
 		<java.version>1.8</java.version>
 		<pojo.tester.version>0.7.5</pojo.tester.version>
 		<spotify.web.api.version>1.5.0</spotify.web.api.version>
+		<log4j.version>1.2.17</log4j.version>
+		<lang3.version>3.5</lang3.version>
 	</properties>
 
 	<repositories>
@@ -53,20 +55,33 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>se.michaelthelin.spotify</groupId>
 			<artifactId>spotify-web-api-java</artifactId>
 			<version>${spotify.web.api.version}</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${lang3.version}</version>
+		</dependency>
+
+
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>pl.pojo</groupId>
 			<artifactId>pojo-tester</artifactId>
