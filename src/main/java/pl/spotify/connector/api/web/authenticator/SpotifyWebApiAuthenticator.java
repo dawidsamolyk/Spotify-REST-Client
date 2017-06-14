@@ -23,7 +23,7 @@ public class SpotifyWebApiAuthenticator {
 
 	@Value("${spotifyWebApiClientId}")
 	private String clientId;
-	
+
 	@Value("${spotifyWebApiSecretKey}")
 	private String secretKey;
 

@@ -20,6 +20,7 @@ import com.wrapper.spotify.models.Artist;
 import com.wrapper.spotify.models.SimpleAlbum;
 import com.wrapper.spotify.models.Track;
 
+import pl.spotify.connector.component.messages.MessagesProvider;
 import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.exception.application.ApplicationException;
 import pl.spotify.connector.exception.application.artist.track.TrackNotFoundException;
@@ -46,6 +47,9 @@ public class SpotifyTrackWebApi extends AbstractSpotifyWebApi {
 	@Autowired
 	private SpotifyAlbumWebApi albumApi;
 
+	@Autowired
+	private MessagesProvider messagesProvider;
+
 	/**
 	 * Provides top tracks (for a currently logged in user's locale) for given
 	 * artist.
@@ -68,7 +72,7 @@ public class SpotifyTrackWebApi extends AbstractSpotifyWebApi {
 
 		} catch (EmptyResponseException | BadRequestException e) {
 			getLogger().error(e.getLocalizedMessage(), e);
-			throw new TrackNotFoundException("spotify.api.track.notfound.error");
+			throw new TrackNotFoundException(messagesProvider.get("spotify.api.track.notfound.error"));
 
 		} catch (IOException | WebApiException e) {
 			throw new SystemException(e.getLocalizedMessage(), e);
@@ -84,7 +88,7 @@ public class SpotifyTrackWebApi extends AbstractSpotifyWebApi {
 		final List<Track> result = request.get();
 
 		if (result.isEmpty()) {
-			throw new TrackNotFoundException("spotify.api.track.notfound.error");
+			throw new TrackNotFoundException(messagesProvider.get("spotify.api.track.notfound.error"));
 		}
 		return result.stream().map(getTracksMapper()).limit(tracksLimit).collect(Collectors.toList());
 	}

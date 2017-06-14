@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import pl.spotify.connector.api.web.facade.SpotifyWebApiFacade;
+import pl.spotify.connector.component.messages.MessagesProvider;
 import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.exception.application.ApplicationException;
 import pl.spotify.connector.exception.application.artist.InvalidArtistIdException;
@@ -29,6 +30,9 @@ public class SpotifyArtistService {
 
 	@Autowired
 	private SpotifyWebApiFacade spotifyApi;
+
+	@Autowired
+	private MessagesProvider messagesProvider;
 
 	/**
 	 * Provides artists.
@@ -51,7 +55,7 @@ public class SpotifyArtistService {
 	}
 
 	private Supplier<? extends ApplicationException> getInvalidArtistIdErrorProvider() {
-		return () -> new InvalidArtistIdException("invalid.artist.id");
+		return () -> new InvalidArtistIdException(messagesProvider.get("invalid.artist.id"));
 	}
 
 }

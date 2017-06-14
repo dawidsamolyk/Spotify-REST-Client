@@ -18,6 +18,7 @@ import com.wrapper.spotify.exceptions.WebApiException;
 import com.wrapper.spotify.methods.ArtistSearchRequest;
 import com.wrapper.spotify.models.Artist;
 
+import pl.spotify.connector.component.messages.MessagesProvider;
 import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.exception.application.ApplicationException;
 import pl.spotify.connector.exception.application.artist.ArtistNotFoundException;
@@ -42,6 +43,9 @@ public class SpotifyArtistWebApi extends AbstractSpotifyWebApi {
 	@Autowired
 	private SpotifyTrackWebApi tracksApi;
 
+	@Autowired
+	private MessagesProvider messagesProvider;
+
 	/**
 	 * Provides artists with given names.
 	 * 
@@ -63,7 +67,7 @@ public class SpotifyArtistWebApi extends AbstractSpotifyWebApi {
 
 		} catch (EmptyResponseException | BadRequestException e) {
 			getLogger().error(e.getLocalizedMessage(), e);
-			throw new ArtistNotFoundException("spotify.api.artist.notfound.error");
+			throw new ArtistNotFoundException(messagesProvider.get("spotify.api.artist.notfound.error"));
 
 		} catch (IOException | WebApiException e) {
 			throw new SystemException(e.getLocalizedMessage(), e);
@@ -75,7 +79,7 @@ public class SpotifyArtistWebApi extends AbstractSpotifyWebApi {
 		final List<Artist> result = request.get().getItems();
 
 		if (result.isEmpty()) {
-			throw new ArtistNotFoundException("spotify.api.artist.notfound.error");
+			throw new ArtistNotFoundException(messagesProvider.get("spotify.api.artist.notfound.error"));
 		}
 		return result.stream().map(getArtistMapper(topTracksLimit)).collect(Collectors.toList());
 	}

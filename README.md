@@ -41,6 +41,8 @@ Artist:
 	* Album release date
 	* Duration time
 	* Hyperlink to fragment of the track
+	
+Data will be fetched by localization. You could change its value by using "lang" parameter in query string of request address (see below examples).
 
 ### Example usage
 
@@ -50,6 +52,16 @@ localhost:8080/artists/Lemon
 
 ```
 localhost:8080/artists/Lemon?topTracksLimit=10
+```
+
+To change your locale use "lang" parameter:
+
+```
+localhost:8080/artists/Lemon?lang=pl
+```
+
+```
+localhost:8080/artists/Lemon?topTracksLimit=10&lang=pl
 ```
 
 For more examples for API's side please look at JUnit tests.

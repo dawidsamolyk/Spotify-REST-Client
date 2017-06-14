@@ -22,7 +22,7 @@ public class MessagesProvider {
 
 	@Autowired
 	private MessageSource messageSource;
-	
+
 	/**
 	 * Provides internationalized message.
 	 * 

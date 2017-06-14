@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.wrapper.spotify.Api;
 
 import pl.spotify.connector.api.web.authenticator.SpotifyWebApiAuthenticator;
+import pl.spotify.connector.component.messages.MessagesProvider;
 import pl.spotify.connector.exception.system.SpotifyApiException;
 import pl.spotify.connector.exception.system.SystemException;
 
@@ -29,6 +30,9 @@ public abstract class AbstractSpotifyWebApi {
 	@Autowired
 	private SpotifyWebApiAuthenticator spotifyAuthenticator;
 
+	@Autowired
+	private MessagesProvider messagesProvider;
+
 	private Logger logger;
 
 	protected Api getApi() throws SystemException {
@@ -36,7 +40,7 @@ public abstract class AbstractSpotifyWebApi {
 	}
 
 	private Supplier<SystemException> getInitializationErrorProvider() {
-		return () -> new SpotifyApiException("spotify.api.initialization.error");
+		return () -> new SpotifyApiException(messagesProvider.get("spotify.api.initialization.error"));
 	}
 
 	protected Logger getLogger() {
