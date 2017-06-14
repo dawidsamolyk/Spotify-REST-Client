@@ -67,7 +67,7 @@ localhost:8080/artists/Lemon?topTracksLimit=10&locale=PL_pl
 localhost:8080/artists/Lemon?topTracksLimit=10&locale=DE_de
 ```
 
-For more examples for API's side please look at JUnit tests.
+For more examples from API's side please look at JUnit tests.
 
 ## Built With
 
