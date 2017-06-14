@@ -2,6 +2,32 @@
 
 An example project for fetching artist data from Spotify via REST API.
 
+## Configuration
+
+You have to get your Spotify Web API Client ID and Secret from [that webpage](https://developer.spotify.com/my-applications). If you don't have Application yet then you should create it.
+
+Use below data as program arguments when you're starting SpotifyConnectorApplication. 
+
+Syntax of program arguments:
+```
+--spotifyWebApiClientId=<CLIENT_ID>
+--spotifyWebApiSecretKey=<SECRET>
+```
+
+Without that data program will not start.
+
+Example usage from command line:
+```
+java -jar spotify-connector-1.0-SNAPSHOT.jar "--spotifyWebApiClientId=<CLIENT_ID>" "--spotifyWebApiSecretKey=<SECRET>"
+```
+
+Example usage from Eclipse:
+Run configurations... -> Select your configuration -> Arguments -> Program arguments:
+```
+--spotifyWebApiClientId=<CLIENT_ID>
+--spotifyWebApiSecretKey=<SECRET>
+```
+
 ## Data model
 
 Artist:

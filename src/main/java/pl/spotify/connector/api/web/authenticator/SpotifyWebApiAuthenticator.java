@@ -21,11 +21,11 @@ import pl.spotify.connector.exception.system.SystemException;
 @Component
 public class SpotifyWebApiAuthenticator {
 
-	@Value("${spotify.web.api.client.id}")
+	@Value("${spotifyWebApiClientId}")
 	private String clientId;
-
-	@Value("${spotify.web.api.client.secret}")
-	private String clientSecret;
+	
+	@Value("${spotifyWebApiSecretKey}")
+	private String secretKey;
 
 	private Api api;
 
@@ -39,7 +39,8 @@ public class SpotifyWebApiAuthenticator {
 	}
 
 	private ClientCredentials getClientCredentials() throws SystemException {
-		final Api api = Api.builder().clientId(clientId).clientSecret(clientSecret).build();
+		final Api api = Api.builder().clientId(clientId).clientSecret(secretKey).build();
+
 		final ClientCredentialsGrantRequest credentialsRequest = api.clientCredentialsGrant().build();
 
 		try {

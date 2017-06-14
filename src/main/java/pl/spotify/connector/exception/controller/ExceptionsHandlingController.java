@@ -21,14 +21,18 @@ public class ExceptionsHandlingController {
 	@Autowired
 	private MessagesProvider messagesProvider;
 
+	private String getI18nMessage(ArtistNotFoundException exception) {
+		return messagesProvider.get(exception.getMessage());
+	}
+
 	@ExceptionHandler(ArtistNotFoundException.class)
 	public ArtistNotFoundException exception(ArtistNotFoundException exception) {
-		return new ArtistNotFoundException(messagesProvider.get(exception.getMessage()), exception.getCause());
+		return new ArtistNotFoundException(getI18nMessage(exception));
 	}
 
 	@ExceptionHandler(InvalidArtistIdException.class)
 	public InvalidArtistIdException exception(InvalidArtistIdException exception) {
-		return new InvalidArtistIdException(messagesProvider.get(exception.getMessage()), exception.getCause());
+		return new InvalidArtistIdException(messagesProvider.get(exception.getMessage()));
 	}
 
 	@ExceptionHandler(SpotifyApiException.class)

@@ -18,13 +18,6 @@ public class ArtistNotFoundException extends ApplicationException {
 	private static final long serialVersionUID = 6019925480553425020L;
 
 	/**
-	 * @see {@link SpotifyConnectorException#SpotifyConnectorException(String, Throwable)}
-	 */
-	public ArtistNotFoundException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	/**
 	 * @see {@link SpotifyConnectorException#SpotifyConnectorException(String)}
 	 */
 	public ArtistNotFoundException(final String message) {

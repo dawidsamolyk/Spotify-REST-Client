@@ -15,7 +15,7 @@ import com.wrapper.spotify.models.Album;
 
 import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.exception.application.ApplicationException;
-import pl.spotify.connector.exception.application.artist.ArtistNotFoundException;
+import pl.spotify.connector.exception.application.artist.album.AlbumNotFoundException;
 import pl.spotify.connector.exception.system.SystemException;
 import pl.spotify.connector.model.SpotifyAlbum;
 import pl.spotify.connector.model.converter.SpotifyAlbumConverter;
@@ -50,8 +50,8 @@ public class SpotifyAlbumWebApi extends AbstractSpotifyWebApi {
 			return fetchAlbum(request);
 
 		} catch (EmptyResponseException | BadRequestException e) {
-			// TODO
-			throw new ArtistNotFoundException("spotify.api.artist.notfound.error", e);
+			getLogger().error(e.getLocalizedMessage(), e);
+			throw new AlbumNotFoundException("spotify.api.album.notfound.error");
 
 		} catch (IOException | WebApiException e) {
 			throw new SystemException(e.getLocalizedMessage(), e);

@@ -1,6 +1,6 @@
 package pl.spotify.connector.service.artist;
 
-import static com.google.common.base.Strings.emptyToNull;
+import static org.apache.commons.lang3.StringUtils.trimToNull;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -44,7 +44,7 @@ public class SpotifyArtistService {
 	 */
 	public Collection<SpotifyArtist> fetchArtistsByName(final String artist, int topTracksLimit)
 			throws SpotifyConnectorException {
-		final String artistName = Optional.ofNullable(emptyToNull(artist))
+		final String artistName = Optional.ofNullable(trimToNull(artist))
 				.orElseThrow(getInvalidArtistIdErrorProvider());
 
 		return spotifyApi.getArtistsByName(artistName, topTracksLimit);

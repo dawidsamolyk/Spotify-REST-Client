@@ -62,7 +62,8 @@ public class SpotifyArtistWebApi extends AbstractSpotifyWebApi {
 			return fetchArtists(request, topTracksLimit);
 
 		} catch (EmptyResponseException | BadRequestException e) {
-			throw new ArtistNotFoundException("spotify.api.artist.notfound.error", e);
+			getLogger().error(e.getLocalizedMessage(), e);
+			throw new ArtistNotFoundException("spotify.api.artist.notfound.error");
 
 		} catch (IOException | WebApiException e) {
 			throw new SystemException(e.getLocalizedMessage(), e);
@@ -94,7 +95,6 @@ public class SpotifyArtistWebApi extends AbstractSpotifyWebApi {
 			return tracksApi.getTopTracksByArtistId(eachArtist, topTracksLimit);
 
 		} catch (SpotifyConnectorException e) {
-			// TODO message
 			getLogger().error(e.getLocalizedMessage(), e);
 
 			return Collections.emptyList();
@@ -107,7 +107,6 @@ public class SpotifyArtistWebApi extends AbstractSpotifyWebApi {
 			return result.stream().map(Artist::getName).collect(Collectors.toList());
 
 		} catch (IOException | WebApiException | SystemException e) {
-			// TODO message
 			getLogger().error(e.getLocalizedMessage(), e);
 
 			return Collections.emptyList();

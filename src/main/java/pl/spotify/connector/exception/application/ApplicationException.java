@@ -17,13 +17,6 @@ public class ApplicationException extends SpotifyConnectorException {
 	private static final long serialVersionUID = 5691163591378475146L;
 
 	/**
-	 * @see {@link SpotifyConnectorException#SpotifyConnectorException(String, Throwable)}
-	 */
-	public ApplicationException(final String message, final Throwable cause) {
-		super(message, cause);
-	}
-
-	/**
 	 * @see {@link SpotifyConnectorException#SpotifyConnectorException(String)}
 	 */
 	public ApplicationException(final String message) {

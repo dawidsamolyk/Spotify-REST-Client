@@ -12,7 +12,7 @@ import pl.pojo.tester.api.assertion.Method;
  * @author Dawid Samolyk
  *
  */
-public class PojoTest {
+public class POJOsTest {
 
 	@Test
 	public void pojo_should_have_valid_getters_setters_constructors_and_hashCode_equals_methods() {

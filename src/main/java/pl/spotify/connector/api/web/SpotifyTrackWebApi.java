@@ -22,7 +22,7 @@ import com.wrapper.spotify.models.Track;
 
 import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.exception.application.ApplicationException;
-import pl.spotify.connector.exception.application.artist.ArtistNotFoundException;
+import pl.spotify.connector.exception.application.artist.track.TrackNotFoundException;
 import pl.spotify.connector.exception.system.SystemException;
 import pl.spotify.connector.model.SpotifyAlbum;
 import pl.spotify.connector.model.SpotifyTrack;
@@ -67,8 +67,8 @@ public class SpotifyTrackWebApi extends AbstractSpotifyWebApi {
 			return fetchTopTracks(request, tracksLimit);
 
 		} catch (EmptyResponseException | BadRequestException e) {
-			// TODO
-			throw new ArtistNotFoundException("spotify.api.artist.notfound.error", e);
+			getLogger().error(e.getLocalizedMessage(), e);
+			throw new TrackNotFoundException("spotify.api.track.notfound.error");
 
 		} catch (IOException | WebApiException e) {
 			throw new SystemException(e.getLocalizedMessage(), e);
@@ -84,8 +84,7 @@ public class SpotifyTrackWebApi extends AbstractSpotifyWebApi {
 		final List<Track> result = request.get();
 
 		if (result.isEmpty()) {
-			// TODO
-			throw new ArtistNotFoundException("spotify.api.artist.notfound.error");
+			throw new TrackNotFoundException("spotify.api.track.notfound.error");
 		}
 		return result.stream().map(getTracksMapper()).limit(tracksLimit).collect(Collectors.toList());
 	}
@@ -112,7 +111,6 @@ public class SpotifyTrackWebApi extends AbstractSpotifyWebApi {
 			return albumApi.getAlbumById(album.getId());
 
 		} catch (SpotifyConnectorException e) {
-			// TODO message
 			getLogger().error(e.getLocalizedMessage(), e);
 
 			return EMPTY_ALBUM;

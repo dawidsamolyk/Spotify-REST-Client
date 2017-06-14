@@ -1,4 +1,4 @@
-package pl.spotify.connector.exception.application.artist;
+package pl.spotify.connector.exception.application.artist.album;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -7,20 +7,20 @@ import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.exception.application.ApplicationException;
 
 /**
- * Represents error about invalid artist ID.
+ * Represents error about missing album (not found).
  * 
  * @author Dawid Samolyk
  *
  */
-@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-public class InvalidArtistIdException extends ApplicationException {
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
+public class AlbumNotFoundException extends ApplicationException {
 
-	private static final long serialVersionUID = 2045590509285264731L;
+	private static final long serialVersionUID = 6019925480553425020L;
 
 	/**
 	 * @see {@link SpotifyConnectorException#SpotifyConnectorException(String)}
 	 */
-	public InvalidArtistIdException(final String message) {
+	public AlbumNotFoundException(final String message) {
 		super(message);
 	}
 
