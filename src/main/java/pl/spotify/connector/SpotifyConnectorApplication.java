@@ -25,7 +25,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @ComponentScan
 public class SpotifyConnectorApplication extends WebMvcConfigurerAdapter {
 
-	private static final String LANGUAGE_CHANGE_PARAM_NAME = "lang";
+	private static final String LOCALE_CHANGE_PARAM_NAME = "locale";
 
 	@Value("${default.locale}")
 	private String defaultLocale;
@@ -67,7 +67,7 @@ public class SpotifyConnectorApplication extends WebMvcConfigurerAdapter {
 	@Bean(name = "localeChangeInterceptor")
 	public LocaleChangeInterceptor createLocaleChangeInterceptor() {
 		LocaleChangeInterceptor result = new LocaleChangeInterceptor();
-		result.setParamName(LANGUAGE_CHANGE_PARAM_NAME);
+		result.setParamName(LOCALE_CHANGE_PARAM_NAME);
 
 		return result;
 	}

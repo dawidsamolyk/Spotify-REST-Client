@@ -1,6 +1,7 @@
-package pl.spotify.connector.api.web;
+package pl.spotify.connector.component.api.web;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -16,7 +17,6 @@ import com.wrapper.spotify.models.Album;
 import pl.spotify.connector.component.messages.MessagesProvider;
 import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.exception.application.ApplicationException;
-import pl.spotify.connector.exception.application.artist.album.AlbumNotFoundException;
 import pl.spotify.connector.exception.system.SystemException;
 import pl.spotify.connector.model.SpotifyAlbum;
 import pl.spotify.connector.model.converter.SpotifyAlbumConverter;
@@ -47,15 +47,16 @@ public class SpotifyAlbumWebApi extends AbstractSpotifyWebApi {
 	 *             Thrown when input data is invalid or artist not found or any
 	 *             internal error occurs.
 	 */
-	public SpotifyAlbum getAlbumById(String id) throws SpotifyConnectorException {
+	public Optional<SpotifyAlbum> getAlbumById(String id) throws SpotifyConnectorException {
 		final AlbumRequest request = getApi().getAlbum(id).build();
 
 		try {
-			return fetchAlbum(request);
+			return Optional.of(fetchAlbum(request));
 
 		} catch (EmptyResponseException | BadRequestException e) {
-			getLogger().error(e.getLocalizedMessage(), e);
-			throw new AlbumNotFoundException(messagesProvider.get("spotify.api.album.notfound.error"));
+			getLogger().error(messagesProvider.get("spotify.api.album.notfound.error", e.getLocalizedMessage()), e);
+
+			return Optional.empty();
 
 		} catch (IOException | WebApiException e) {
 			throw new SystemException(e.getLocalizedMessage(), e);

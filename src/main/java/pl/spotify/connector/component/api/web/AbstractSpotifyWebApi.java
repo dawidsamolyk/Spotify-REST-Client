@@ -1,4 +1,4 @@
-package pl.spotify.connector.api.web;
+package pl.spotify.connector.component.api.web;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.wrapper.spotify.Api;
 
-import pl.spotify.connector.api.web.authenticator.SpotifyWebApiAuthenticator;
+import pl.spotify.connector.component.api.web.authenticator.SpotifyWebApiAuthenticator;
 import pl.spotify.connector.component.messages.MessagesProvider;
 import pl.spotify.connector.exception.system.SpotifyApiException;
 import pl.spotify.connector.exception.system.SystemException;

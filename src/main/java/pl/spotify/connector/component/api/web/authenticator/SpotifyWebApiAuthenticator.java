@@ -1,4 +1,4 @@
-package pl.spotify.connector.api.web.authenticator;
+package pl.spotify.connector.component.api.web.authenticator;
 
 import java.io.IOException;
 

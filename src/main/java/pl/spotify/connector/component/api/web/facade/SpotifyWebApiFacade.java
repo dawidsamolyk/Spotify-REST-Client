@@ -1,4 +1,4 @@
-package pl.spotify.connector.api.web.facade;
+package pl.spotify.connector.component.api.web.facade;
 
 import java.util.Collection;
 
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import pl.spotify.connector.api.web.SpotifyArtistWebApi;
+import pl.spotify.connector.component.api.web.SpotifyArtistWebApi;
 import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.model.SpotifyArtist;
 

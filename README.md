@@ -42,7 +42,7 @@ Artist:
 	* Duration time
 	* Hyperlink to fragment of the track
 	
-Data will be fetched by localization. You could change its value by using "lang" parameter in query string of request address (see below examples).
+Data will be fetched by localization. You could change its value by using "locale" parameter in query string of request address (see below examples). **Please use full code of locale which specifies country also. Country is used to fetch top tracks of an artist. If you'll not provide full locale code then first found country for a given language will be taken.**
 
 ### Example usage
 
@@ -54,14 +54,17 @@ localhost:8080/artists/Lemon
 localhost:8080/artists/Lemon?topTracksLimit=10
 ```
 
-To change your locale use "lang" parameter:
+To change your locale use "locale" parameter:
 
 ```
-localhost:8080/artists/Lemon?lang=pl
+localhost:8080/artists/Lemon?locale=PL_pl
 ```
 
 ```
-localhost:8080/artists/Lemon?topTracksLimit=10&lang=pl
+localhost:8080/artists/Lemon?topTracksLimit=10&locale=PL_pl
+```
+```
+localhost:8080/artists/Lemon?topTracksLimit=10&locale=DE_de
 ```
 
 For more examples for API's side please look at JUnit tests.

@@ -11,7 +11,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import pl.spotify.connector.api.web.facade.SpotifyWebApiFacade;
+import pl.spotify.connector.component.api.web.facade.SpotifyWebApiFacade;
 import pl.spotify.connector.component.messages.MessagesProvider;
 import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.exception.application.ApplicationException;

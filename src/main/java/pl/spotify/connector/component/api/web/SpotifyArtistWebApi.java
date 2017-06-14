@@ -1,4 +1,4 @@
-package pl.spotify.connector.api.web;
+package pl.spotify.connector.component.api.web;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -67,6 +67,7 @@ public class SpotifyArtistWebApi extends AbstractSpotifyWebApi {
 
 		} catch (EmptyResponseException | BadRequestException e) {
 			getLogger().error(e.getLocalizedMessage(), e);
+
 			throw new ArtistNotFoundException(messagesProvider.get("spotify.api.artist.notfound.error"));
 
 		} catch (IOException | WebApiException e) {
@@ -87,6 +88,7 @@ public class SpotifyArtistWebApi extends AbstractSpotifyWebApi {
 	private Function<? super Artist, ? extends SpotifyArtist> getArtistMapper(int topTracksLimit) {
 		return eachArtist -> {
 			final SpotifyArtist result = artistConverter.convertFrom(eachArtist);
+
 			result.setTopTracks(fetchTopTracks(eachArtist, topTracksLimit));
 			result.setSimilarArtists(fetchRelatedArtists(eachArtist));
 
@@ -109,6 +111,12 @@ public class SpotifyArtistWebApi extends AbstractSpotifyWebApi {
 		try {
 			final List<Artist> result = getApi().getArtistRelatedArtists(artist.getId()).build().get();
 			return result.stream().map(Artist::getName).collect(Collectors.toList());
+
+		} catch (EmptyResponseException | BadRequestException e) {
+			getLogger().error(
+					messagesProvider.get("spotify.api.related.artists.notfound.error", e.getLocalizedMessage()), e);
+
+			return Collections.emptyList();
 
 		} catch (IOException | WebApiException | SystemException e) {
 			getLogger().error(e.getLocalizedMessage(), e);

@@ -1,15 +1,16 @@
-package pl.spotify.connector.api.web;
+package pl.spotify.connector.component.api.web;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.wrapper.spotify.exceptions.BadRequestException;
@@ -20,10 +21,10 @@ import com.wrapper.spotify.models.Artist;
 import com.wrapper.spotify.models.SimpleAlbum;
 import com.wrapper.spotify.models.Track;
 
+import pl.spotify.connector.component.locale.LocaleProvider;
 import pl.spotify.connector.component.messages.MessagesProvider;
 import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.exception.application.ApplicationException;
-import pl.spotify.connector.exception.application.artist.track.TrackNotFoundException;
 import pl.spotify.connector.exception.system.SystemException;
 import pl.spotify.connector.model.SpotifyAlbum;
 import pl.spotify.connector.model.SpotifyTrack;
@@ -39,8 +40,6 @@ import pl.spotify.connector.model.converter.SpotifyTrackConverter;
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class SpotifyTrackWebApi extends AbstractSpotifyWebApi {
 
-	private static final SpotifyAlbum EMPTY_ALBUM = new SpotifyAlbum();
-
 	@Autowired
 	private SpotifyTrackConverter trackConverter;
 
@@ -49,6 +48,9 @@ public class SpotifyTrackWebApi extends AbstractSpotifyWebApi {
 
 	@Autowired
 	private MessagesProvider messagesProvider;
+
+	@Autowired
+	private LocaleProvider localeProvider;
 
 	/**
 	 * Provides top tracks (for a currently logged in user's locale) for given
@@ -65,31 +67,26 @@ public class SpotifyTrackWebApi extends AbstractSpotifyWebApi {
 	 */
 	public Collection<SpotifyTrack> getTopTracksByArtistId(Artist artist, int tracksLimit)
 			throws SpotifyConnectorException {
-		final TopTracksRequest request = getApi().getTopTracksForArtist(artist.getId(), getCountryByLocale()).build();
+		final String country = localeProvider.getCountryByLocale();
+		final TopTracksRequest request = getApi().getTopTracksForArtist(artist.getId(), country).build();
 
 		try {
 			return fetchTopTracks(request, tracksLimit);
 
 		} catch (EmptyResponseException | BadRequestException e) {
-			getLogger().error(e.getLocalizedMessage(), e);
-			throw new TrackNotFoundException(messagesProvider.get("spotify.api.track.notfound.error"));
+			getLogger().error(messagesProvider.get("spotify.api.album.notfound.error", e.getLocalizedMessage()), e);
+
+			return Collections.emptyList();
 
 		} catch (IOException | WebApiException e) {
 			throw new SystemException(e.getLocalizedMessage(), e);
 		}
 	}
 
-	private String getCountryByLocale() {
-		return LocaleContextHolder.getLocale().getCountry();
-	}
-
 	private Collection<SpotifyTrack> fetchTopTracks(TopTracksRequest request, int tracksLimit)
 			throws IOException, WebApiException, ApplicationException {
 		final List<Track> result = request.get();
 
-		if (result.isEmpty()) {
-			throw new TrackNotFoundException(messagesProvider.get("spotify.api.track.notfound.error"));
-		}
 		return result.stream().map(getTracksMapper()).limit(tracksLimit).collect(Collectors.toList());
 	}
 
@@ -97,27 +94,29 @@ public class SpotifyTrackWebApi extends AbstractSpotifyWebApi {
 		return eachTrack -> {
 			final SpotifyTrack result = trackConverter.convertFrom(eachTrack);
 
-			final SpotifyAlbum album = getAlbumData(eachTrack);
-			result.setAlbumName(album.getName());
-			result.setAlbumReleaseDate(album.getReleaseDate());
+			final Optional<SpotifyAlbum> album = getAlbumData(eachTrack);
+			if (album.isPresent()) {
+				result.setAlbumName(album.get().getName());
+				result.setAlbumReleaseDate(album.get().getReleaseDate());
+			}
 
 			return result;
 		};
 	}
 
-	private SpotifyAlbum getAlbumData(Track track) {
+	private Optional<SpotifyAlbum> getAlbumData(Track track) {
 		final SimpleAlbum album = track.getAlbum();
 
 		if (album == null) {
-			return EMPTY_ALBUM;
+			return Optional.empty();
 		}
 		try {
 			return albumApi.getAlbumById(album.getId());
 
 		} catch (SpotifyConnectorException e) {
-			getLogger().error(e.getLocalizedMessage(), e);
+			getLogger().error(messagesProvider.get("spotify.api.album.notfound.error", e.getLocalizedMessage()), e);
 
-			return EMPTY_ALBUM;
+			return Optional.empty();
 		}
 	}
 

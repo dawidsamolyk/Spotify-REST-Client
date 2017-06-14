@@ -11,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import pl.spotify.connector.api.web.facade.SpotifyWebApiFacade;
+import pl.spotify.connector.component.api.web.facade.SpotifyWebApiFacade;
 import pl.spotify.connector.component.messages.MessagesProvider;
 import pl.spotify.connector.exception.SpotifyConnectorException;
 import pl.spotify.connector.exception.application.artist.InvalidArtistIdException;
