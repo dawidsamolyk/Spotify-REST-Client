@@ -5,16 +5,16 @@ An example project for fetching artist data from Spotify via REST API.
 ## Data model
 
 Artist:
-1. Full name
-2. Music genres
-3. Hyperlink to photo
-4. Names of 5 similar artists
-5. List of the best tracks:
-- Name of the track
-- Album name
-- Album release date
-- Duration time
-- Hyperlink to fragment of the track
+- Full name
+- Music genres
+- Hyperlink to photo
+- Names of 5 similar artists
+- List of the best tracks:
+	* Name of the track
+	* Album name
+	* Album release date
+	* Duration time
+	* Hyperlink to fragment of the track
 
 ### Example usage
 
